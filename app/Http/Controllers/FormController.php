@@ -22,5 +22,9 @@ class FormController extends Controller
         ]);
 
         Session::flash('message', 'Thanks for your message');
+
+        // Log::info('Contact form submission', $request->all());
+
+        return to_route('dashboard');
     }
 }

@@ -2,6 +2,11 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import ContactForm from "@/Components/ContactForm.vue";
+
+const props = defineProps({
+    errors: Object,
+    flash: Object,
+});
 </script>
 
 <template>
@@ -17,7 +22,7 @@ import ContactForm from "@/Components/ContactForm.vue";
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <ContactForm />
+                    <ContactForm :errors="errors" :flash="flash" />
                 </div>
             </div>
         </div>

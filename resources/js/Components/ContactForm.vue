@@ -1,15 +1,10 @@
 <script setup>
 import { reactive, defineProps } from "vue";
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
-    errors: {
-        type: Object,
-        default: () => ({}),
-    },
-    flash: {
-        type: Object,
-        default: () => ({}),
-    },
+    errors: Object,
+    flash: Object,
 });
 
 const form = reactive({
@@ -17,6 +12,10 @@ const form = reactive({
     email: "",
     message: "",
 });
+
+function submitForm() {
+    router.post(route("dashboard.store"), form);
+}
 </script>
 
 <template>
@@ -32,7 +31,9 @@ const form = reactive({
                     class="w-full rounded-lg"
                     placeholder="Enter your name"
                 />
-                <span v-if="errors.name">{{ errors.name }}</span>
+                <span v-if="errors" class="text-red-500">{{
+                    errors.name
+                }}</span>
             </div>
             <br />
             <div>
@@ -42,9 +43,11 @@ const form = reactive({
                     type="email"
                     v-model="form.email"
                     class="w-full rounded-lg"
-                    placeholder="Enter your name"
+                    placeholder="Enter your email"
                 />
-                <span v-if="errors.email">{{ errors.email }}</span>
+                <span v-if="errors" class="text-red-500">
+                    {{ errors.email }}
+                </span>
             </div>
             <br />
             <div>
@@ -53,9 +56,11 @@ const form = reactive({
                 <textarea
                     v-model="form.message"
                     class="w-full rounded-lg"
-                    placeholder="Enter your name"
+                    placeholder="Enter your message"
                 ></textarea>
-                <span v-if="errors.message">{{ errors.message }}</span>
+                <span v-if="errors" class="text-red-500">
+                    {{ errors.message }}
+                </span>
             </div>
             <button
                 type="submit"
@@ -64,6 +69,8 @@ const form = reactive({
                 Send
             </button>
         </form>
-        <div v-if="flash.message">{{ flash.message }}</div>
+        <div v-if="flash" class="text-green-500">
+            {{ flash.message }}
+        </div>
     </div>
 </template>
