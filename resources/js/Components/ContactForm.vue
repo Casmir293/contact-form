@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, defineProps } from "vue";
+import { reactive, defineProps, ref, watch, computed } from "vue";
 import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -12,6 +12,25 @@ const form = reactive({
     email: "",
     message: "",
 });
+
+const flashTimeout = ref(null);
+
+const showFlash = computed(() => {
+    return !!props.flash.message;
+});
+
+watch(
+    () => props.flash.message,
+    (newMessage) => {
+        if (newMessage) {
+            clearTimeout(flashTimeout.value);
+            flashTimeout.value = setTimeout(() => {
+                props.flash.message = null;
+            }, 3000);
+        }
+    },
+    { immediate: true }
+);
 
 function submitForm() {
     router.post(route("dashboard.store"), form);
@@ -69,7 +88,7 @@ function submitForm() {
                 Send
             </button>
         </form>
-        <div v-if="flash" class="text-green-500">
+        <div v-if="showFlash && flash.message" class="text-green-500">
             {{ flash.message }}
         </div>
     </div>

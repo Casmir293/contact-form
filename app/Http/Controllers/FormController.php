@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 
 class FormController extends Controller
 {
@@ -21,10 +20,8 @@ class FormController extends Controller
             'message' => 'required|string|min:3|max:255',
         ]);
 
-        Session::flash('message', 'Thanks for your message');
+        Log::info('Contact form submission', $request->all());
 
-        // Log::info('Contact form submission', $request->all());
-
-        return to_route('dashboard');
+        return to_route('dashboard')->with('message', 'Thanks for your message');
     }
 }
